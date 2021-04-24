@@ -11,14 +11,18 @@
             $data = array(
                 'token' => $_SESSION['accessToken']
             );
-            $url = 'http://localhost:3000/api/questions';
+            $url = 'http://localhost:3000/api/questions/private';
             $ch = curl_init($url);
             curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
             curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
             $response = curl_exec($ch);
             $result = json_decode($response, true);
             $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
             curl_close($ch);
+            foreach($result as $value){
+                echo $value['title'].'<br>';
+            }
         ?>
     </body>
 </html>

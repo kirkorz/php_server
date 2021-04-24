@@ -21,6 +21,7 @@
             print_r($result);
             if (array_key_exists('check', $result)) {
                 $_SESSION['accessToken'] = $result["accessToken"];
+                $_SESSION['name'] = $result["username"];
                 if($result["check"]=='false'){
                     $newURL = '/dashboard.php';    
                 }
