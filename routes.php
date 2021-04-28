@@ -1,8 +1,9 @@
 <?php
 $controllers = array(
-  'landing' => ['index', 'error'],
-  'detail' => ['index','error','addcomment'],
-  'auth' => ['index','login','logout','dashboard']
+  'landing' => ['index', 'error','addQuestion','searchQuestion'],
+  'detail' => ['index','error','addComment','deleteQuestion'],
+  'auth' => ['index','login','logout','dashboard'],
+  'questions' => ['publiclist','privatelist']
 ); // Các controllers trong hệ thống và các action có thể gọi ra từ controller đó.
 
 // Nếu các tham số nhận được từ URL không hợp lệ (không thuộc list controller và action có thể gọi
@@ -18,7 +19,12 @@ include_once('controllers/' . $controller . '_controller.php');
 $klass = str_replace('_', '', ucwords($controller, '_')) . 'Controller';
 $controller = new $klass;
 if(isset($_REQUEST['id'])){
-  $controller->$action($_REQUEST['id']);
+  if(isset($_REQUEST['page'])){
+    $controller->$action($_REQUEST['id'],$_REQUEST['page']);  
+  }
+  else{
+    $controller->$action($_REQUEST['id']);
+  }
 } else{
   $controller->$action();
 }

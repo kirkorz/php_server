@@ -30,27 +30,30 @@ class AuthController extends BaseController
     curl_close($ch);
     session_start();
     $_SESSION['token'] = $result["accessToken"];
+    $result = Question::private();
     $data = array(
-      'name' => 'Not Guest',
-      'questions'=> Question::all()
+      'questions'=> $result['result'],
+      'count' => $result['count']
     );
     $this->render('index',$data);
   }
   public function logout(){
     session_start();
     session_destroy();
+    $result = Question::all();
     $data = array(
-      'name' => 'Sang Beo',
-      'age' => 22,
-      'questions'=> Question::all()
+      'questions'=> $result['result'],
+      'count' => $result['count']
     );
     $this->render('index',$data);
   }
-  public function dashboard(){
+  public function dashboard($page=0){
     session_start();
+    $result = Question::private($page);
     $data = array(
-      'name' => 'Not Guest',
-      'questions'=> Question::myquestion()
+      'questions'=> $result['result'],
+      'count' => $result['count'],
+      'conact' => "/?controller=auth&action=dashboard" 
     );
     $this->render('index',$data);
   }

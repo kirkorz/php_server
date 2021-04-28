@@ -1,4 +1,4 @@
-<DOCTYPE html>
+<!-- <DOCTYPE html> -->
 <html>
    <head>
     <meta charset="utf-8">
@@ -7,7 +7,6 @@
     <title>PTUD-15</title>
   </head>
   <body>
-    <?php echo $content ?>
+    <?= @$content ?>
   </body>
 </html>
-

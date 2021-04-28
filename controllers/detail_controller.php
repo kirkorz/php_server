@@ -1,6 +1,7 @@
 <?php
 require_once('controllers/base_controller.php');
 require_once('models/question.php');
+require_once('models/answer.php');
 
 class DetailController extends BaseController
 {
@@ -9,24 +10,44 @@ class DetailController extends BaseController
     $this->folder = 'detail';
   }
 
-  public function index($id)
+  public function index($id,$page=1)
   {
+    $comment = Answer::all($id,$page);
     $data = array(
-      'question'=> Question::detail($id)
+      'question'=> Question::detail($id),
+      'answers' => $comment['result'],
+      'count' => $comment['count']['page_of_comment'],
+      'conact' => "/?controller=detail&action=index" 
     );
     session_start();
     $_SESSION['node_id'] = $id;
     $this->render('index', $data);
   }
-  public function addcomment(){
+  public function addComment($id){
     session_start();
-    Question::addcomment($_SESSION['node_id'],$_POST['txtcomment']);
+    Answer::addComment($id,$_POST['txtcomment']);
+    $comment = Answer::all($id);
     $data = array(
-      'question'=> Question::detail($_SESSION['node_id'])
+      'question'=> Question::detail($id),
+      'answers' => $comment['result'],
+      'count' => $comment['count']['page_of_comment'],
+      'conact' => "/?controller=detail&action=index" 
     );
     $this->render('index', $data);
   }
 
+  public function deleteQuestion($id){
+    session_start();
+    Question::deletequestion($id);
+    $result = Question::private();
+    $data = array(
+      'questions'=> $result['result'],
+      'count' => $result['count']
+    );
+    //$this->render('index', $data);
+    $this->render('', $data,'views/auth/dashboard.php');
+  }
+  
   public function error()
   {
     $this->render('error');

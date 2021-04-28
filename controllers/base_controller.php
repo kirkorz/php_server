@@ -3,10 +3,15 @@ class BaseController {
     protected $folder; // Biến có giá trị là thư mục nào đó trong thư mục views, chứa các file view template của phần đang truy cập.
 
   // Hàm hiển thị kết quả ra cho người dùng.
-    function render($file, $data = array())
+    function render($file, $data = array(),$view=null)
     {
+        if(isset($view)){
+          $view_file = $view;  
+        }
+        else{
+          $view_file = 'views/' . $this->folder . '/' . $file . '.php';
+        }
         // Kiểm tra file gọi đến có tồn tại hay không?
-        $view_file = 'views/' . $this->folder . '/' . $file . '.php';
         if (is_file($view_file)) {
         // Nếu tồn tại file đó thì tạo ra các biến chứa giá trị truyền vào lúc gọi hàm
         extract($data);
