@@ -39,6 +39,23 @@ class Question
     curl_close($ch);
     return $result;
   }
+  static function notcheck($skip = 0){
+    session_start();
+    $data = array(
+        'skip' => $skip * 5,
+        'token' => $_SESSION['token']
+    );
+    $url = 'http://localhost:3000/mod/questions';
+    $ch = curl_init($url);
+    curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+    curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $result;
+  }
   static function private($skip = 0){
     session_start();
     $data = array(
@@ -57,14 +74,34 @@ class Question
     return $result;
   }
 
-  static function addQuestion($title,$detail){
+  static function addQuestion($title,$detail,$tags){
     session_start();
     $data = array(
       'token' => $_SESSION['token'],
       'title' => $title,
-      'detail' => $detail
+      'detail' => $detail,
+      'tags' => $tags
     );
     $url = 'http://localhost:3000/api/questions';
+    $ch = curl_init($url);
+    $postString = http_build_query($data,'','&');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $result;
+  }
+
+  static function makepub($id){
+    session_start();
+    $data = array(
+      'token' => $_SESSION['token'],
+      'questionsId' => $id
+    );
+    $url = 'http://localhost:3000/mod/questions';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -83,6 +120,26 @@ class Question
       'token' => $_SESSION['token']
     );
     $url = 'http://localhost:3000/api/questions/'.$id;
+    $ch = curl_init($url);
+    $postString = http_build_query($data,'','&');
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+    // curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $result;
+  }
+
+  static function moddelQuestion($id){
+    session_start();
+    $data = array(
+      'token' => $_SESSION['token'],
+      'questionsId' => $id
+    );
+    $url = 'http://localhost:3000/mod/questions/';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");

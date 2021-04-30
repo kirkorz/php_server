@@ -9,29 +9,50 @@ class LandingController extends BaseController
     $this->folder = 'landing';
   }
 
-  public function index($page=0)
+  public function userindex($page=0)
   {
-    // load questions at home page
     $result = Question::all($page);
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count'],
-      'conact' => "/?controller=landing&action=index" 
-    );
+      $data = array(
+        'questions'=> $result['result'],
+        'count' => $result['count'],
+        'conact' => "/?controller=landing&action=userindex" 
+      );
     $this->render('index', $data);
   }
 
+  public function modindex($page=0){
+    $result = Question::notcheck($page);
+      $data = array(
+        'questions'=> $result['result'],
+        'count' => $result['count'],
+        'conact' => "/?controller=landing&action=modindex" 
+      );
+    $this->render('mod', $data);
+  }
+
+  public function dashboard($page=0){
+    session_start();
+    $result = Question::private($page);
+    $data = array(
+      'questions'=> $result['result'],
+      'count' => $result['count'],
+      'conact' => "/?controller=landing&action=dashboard" 
+    );
+    $this->render('dashboard',$data);
+  }
+
+  
   public function addQuestion()
   {
     session_start();
-    Question::addQuestion($_POST['txttitle'],$_POST['txtdetail']);
+    Question::addQuestion($_POST['txttitle'],$_POST['txtdetail'],$_POST['txttags']);
     $result = Question::private();
     $data = array(
       'questions'=> $result['result'],
       'count' => $result['count'],
-      'conact' => "/?controller=auth&action=dashboard" 
+      'conact' => "/?controller=landing&action=dashboard" 
     );
-    $this->render('index', $data,'views/auth/dashboard.php');
+    $this->render('dashboard', $data);
   }
 
   public function searchQuestion($page=0)
@@ -43,7 +64,7 @@ class LandingController extends BaseController
       'count' => $result['count'],
       'conact' => "/?controller=landing&action=searchQuestion" 
     );
-    $this->render('index', $data);
+    $this->render('userindex', $data);
   }
 
   public function error()

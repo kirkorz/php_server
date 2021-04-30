@@ -8,7 +8,7 @@
         }
     } else {
         $controller = 'landing';
-        $action = 'index';
+        $action = 'userindex';
     }
     require_once('routes.php');
 ?>

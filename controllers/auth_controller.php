@@ -1,6 +1,7 @@
 <?php
 require_once('controllers/base_controller.php');
 require_once('models/question.php');
+require_once('models/user.php');
 class AuthController extends BaseController
 {
   function __construct()
@@ -12,30 +13,51 @@ class AuthController extends BaseController
   {
     $this->render('login');
   } 
-  public function login()
+  public function index2(){
+    $this->render('signup');
+  }
+  public function login($data=null)
   {
-    $data = array(
-      'username' => $_POST["txtusername"],
-      'password' => $_POST["txtpassword"]
-    );
-    $url = 'http://localhost:3000/auth/login';
-    $ch = curl_init($url);
-    $postString = http_build_query($data,'','&');
-    curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    $response = curl_exec($ch);
-    $result = json_decode($response, true);
-    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
+    if(!isset($data)){
+      $data = array(
+        'username' => $_POST["txtusername"],
+        'password' => $_POST["txtpassword"]
+      );
+    }
+    $result = User::login($data);
     session_start();
     $_SESSION['token'] = $result["accessToken"];
-    $result = Question::private();
+    $_SESSION['mod'] = $result["check"];
+    if($_SESSION['mod'] == 'true'){
+      $result = Question::notcheck();
+      $data = array(
+        'questions'=> $result['result'],
+        'count' => $result['count']
+      );
+      $this->render('',$data,'views/landing/mod.php');
+    } else{
+      $result = Question::private();
+      $data = array(
+        'questions'=> $result['result'],
+        'count' => $result['count']
+      );
+      $this->render('',$data,'views/landing/dashboard.php');
+    }
+  }
+  public function signup(){
     $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count']
+      'username' => $_POST["txtusername"],
+      'name'=> $_POST['txtname'],
+      'password' => $_POST["txtpassword"]
     );
-    $this->render('index',$data);
+    $result = User::signup($data);
+    if($result == 200){
+      $this->login($data);
+    }
+    else{
+      $this->index2();
+    }
+    
   }
   public function logout(){
     session_start();
@@ -45,16 +67,6 @@ class AuthController extends BaseController
       'questions'=> $result['result'],
       'count' => $result['count']
     );
-    $this->render('index',$data);
-  }
-  public function dashboard($page=0){
-    session_start();
-    $result = Question::private($page);
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count'],
-      'conact' => "/?controller=auth&action=dashboard" 
-    );
-    $this->render('index',$data);
+    $this->render('',$data,'views/landing/index.php');
   }
 }

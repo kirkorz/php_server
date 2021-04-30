@@ -1,5 +1,5 @@
 <?php
-class Question
+class User
 {
   public $id;
   public $title;
@@ -12,12 +12,21 @@ class Question
     $this->content = $content;
   }
 
-  static function login($username,$password)
-  {
-    $data = array(
-        'username' => $username,
-        'password' => $password,
-    );
+  static function signup($data){
+    $url = 'http://localhost:3000/auth/signup';
+    $ch = curl_init($url);
+    $postString = http_build_query($data,'','&');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $httpcode;
+  }
+
+  static function login($data){
     $url = 'http://localhost:3000/auth/login';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
@@ -27,24 +36,7 @@ class Question
     $response = curl_exec($ch);
     $result = json_decode($response, true);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    echo $httpcode . "<br/>";
     curl_close($ch);
-    session_start();
-    echo $result;
-    print_r($result);
-    if (array_key_exists('check', $result)) {
-        $_SESSION['accessToken'] = $result["accessToken"];
-        $_SESSION['name'] = $result["username"];
-        if($result["check"]=='false'){
-            $newURL = '/dashboard.php';    
-        }
-        else{
-            $newURL = '/mod.php';
-        }
-    }            
-    else{
-        $newURL = '/error.php';
-    }
-    header('Location: '.$newURL);
+    return $result;
   }
 }

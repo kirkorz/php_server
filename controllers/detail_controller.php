@@ -45,9 +45,31 @@ class DetailController extends BaseController
       'count' => $result['count']
     );
     //$this->render('index', $data);
-    $this->render('', $data,'views/auth/dashboard.php');
+    $this->render('', $data,'views/landing/dashboard.php');
   }
-  
+
+  public function moddelQuestion($id){
+    session_start();
+    Question::moddelQuestion($id);
+    $result = Question::notcheck();
+    $data = array(
+      'questions'=> $result['result'],
+      'count' => $result['count']
+    );
+    $this->render('', $data,'views/landing/mod.php');
+  }
+
+  public function makepub($id){
+    session_start();
+    Question::makepub($id);
+    $result = Question::notcheck();
+    $data = array(
+      'questions'=> $result['result'],
+      'count' => $result['count']
+    );
+    $this->render('', $data,'views/landing/mod.php');
+  }
+
   public function error()
   {
     $this->render('error');

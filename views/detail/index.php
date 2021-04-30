@@ -1,5 +1,17 @@
+<header>
 <?php
   require_once 'views/common/header.php';
-  echo'<br>';
-  require_once 'views/questions/detail.php';
 ?>
+</header>
+<div>
+  <main>
+      <div>
+          <?php require_once 'views/questions/detail.php'; ?>
+      </div>
+      <aside>
+          <div>
+          </div>
+      </aside>
+  </main>
+</div>
+

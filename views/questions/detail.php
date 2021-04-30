@@ -1,16 +1,25 @@
-<?php
+<div>
+    <div>
+    <?php
+    session_start();
 	echo "Questions : $question[title] <br> asked by : {$question[authors][0][name]} <br>";
+    echo "Tags : "; foreach ($question['tags'] as $tag) {
+        echo $tag." || ";
+    }
+    echo "<br>";
     if(isset($_SESSION['token'])){
         require_once('views/questions/delete.php');
     }
-    require_once('views/answers/list.php');
-?>
-<?php
-    session_start();
-    if(isset($_SESSION['token'])){
-        require_once('views/answers/post.php');
-    }
-    else{
-        echo "Log in to Comment";
-    } 
-?>
+    ?>    
+    </div>
+    <div>
+        <?php 
+            if($_SESSION['mod'] == 'true'){
+                require_once('views/questions/makepub.php');
+            }
+            else{
+                require_once('views/answers/list.php');
+            }
+        ?>
+    </div>
+</div>
