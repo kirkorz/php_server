@@ -1,7 +1,7 @@
 <section>
 	<?php 
 	session_start();
-    if(isset($_SESSION['token']) && $_SESSION['mod'] == 'false'){
+    if(isset($_SESSION['token']) && $_SESSION['role'] == 'user'){
         require_once('views/questions/post.php');
     } 
 	?>

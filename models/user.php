@@ -11,9 +11,19 @@ class User
     $this->title = $title;
     $this->content = $content;
   }
-
+  // static function loginGoogle(){
+  //   $url = 'http://localhost:3000/users/google';
+  //   $ch = curl_init($url);
+  //   curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
+  //   curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  //   $response = curl_exec($ch);
+  //   $result = json_decode($response, true);
+  //   $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+  //   curl_close($ch);
+  //   return $result;
+  // }
   static function signup($data){
-    $url = 'http://localhost:3000/auth/signup';
+    $url = 'https://udpt15-auth.herokuapp.com/users/signup';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -27,7 +37,7 @@ class User
   }
 
   static function login($data){
-    $url = 'http://localhost:3000/auth/login';
+    $url = 'https://udpt15-auth.herokuapp.com/users/login';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);

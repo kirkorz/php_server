@@ -1,5 +1,5 @@
 <?php
-if($_SESSION['mod'] == 'true'){
+if($_SESSION['role'] == 'admin'){
         $actions = "moddelQuestion";
     } else{
 		$actions = "deleteQuestion";

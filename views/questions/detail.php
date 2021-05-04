@@ -14,8 +14,9 @@
     </div>
     <div>
         <?php 
-            if($_SESSION['mod'] == 'true'){
+            if($_SESSION['role'] == 'admin'){
                 require_once('views/questions/makepub.php');
+                require_once('views/questions/addcategory.php');
             }
             else{
                 require_once('views/answers/list.php');

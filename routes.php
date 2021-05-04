@@ -1,8 +1,8 @@
 <?php
 $controllers = array(
   'landing' => ['userindex','modindex', 'error','addQuestion','searchQuestion','dashboard'],
-  'detail' => ['index','error','addComment','deleteQuestion','makepub','moddelQuestion'],
-  'auth' => ['index','login','logout','dashboard','signup','index2'],
+  'detail' => ['index','error','addComment','deleteQuestion','makepub','moddelQuestion','addcategory'],
+  'auth' => ['index','login','logout','dashboard','signup','index2','loginGoogle'],
   'questions' => ['publiclist','privatelist']
 ); // Các controllers trong hệ thống và các action có thể gọi ra từ controller đó.
 

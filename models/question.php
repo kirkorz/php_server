@@ -17,7 +17,7 @@ class Question
     $data = array(
       'skip' => $skip * 5
     );
-    $url = 'http://localhost:3000/api/public/questions/all';
+    $url = 'https://udpt15-content.herokuapp.com/api/public/questions/all';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -29,7 +29,7 @@ class Question
     return $result;
   }
   static function detail($id){
-    $url = 'http://localhost:3000/api/public/questions/'.$id;
+    $url = 'https://udpt15-content.herokuapp.com/api/public/questions/'.$id;
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -45,7 +45,7 @@ class Question
         'skip' => $skip * 5,
         'token' => $_SESSION['token']
     );
-    $url = 'http://localhost:3000/mod/questions';
+    $url = 'https://udpt15-content.herokuapp.com/mod/questions';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -62,7 +62,7 @@ class Question
         'skip' => $skip * 5,
         'token' => $_SESSION['token']
     );
-    $url = 'http://localhost:3000/api/questions/private';
+    $url = 'https://udpt15-content.herokuapp.com/api/questions/private';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -82,7 +82,7 @@ class Question
       'detail' => $detail,
       'tags' => $tags
     );
-    $url = 'http://localhost:3000/api/questions';
+    $url = 'https://udpt15-content.herokuapp.com/api/questions';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -101,7 +101,27 @@ class Question
       'token' => $_SESSION['token'],
       'questionsId' => $id
     );
-    $url = 'http://localhost:3000/mod/questions';
+    $url = 'https://udpt15-content.herokuapp.com/mod/questions';
+    $ch = curl_init($url);
+    $postString = http_build_query($data,'','&');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return $result;
+  }
+
+  static function addCategory($id,$category){
+    session_start();
+    $data = array(
+      'token' => $_SESSION['token'],
+      'questionsId' => $id,
+      'category' => $category,
+    );
+    $url = 'https://udpt15-content.herokuapp.com/mod/questions/category';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -119,7 +139,7 @@ class Question
     $data = array(
       'token' => $_SESSION['token']
     );
-    $url = 'http://localhost:3000/api/questions/'.$id;
+    $url = 'https://udpt15-content.herokuapp.com/api/questions/'.$id;
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -139,7 +159,7 @@ class Question
       'token' => $_SESSION['token'],
       'questionsId' => $id
     );
-    $url = 'http://localhost:3000/mod/questions/';
+    $url = 'https://udpt15-content.herokuapp.com/mod/questions/';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -159,7 +179,7 @@ class Question
         'skip' => $skip * 5,
         'text' => $text
     );
-    $url = 'http://localhost:3000/api/public/questions/search';
+    $url = 'https://udpt15-content.herokuapp.com/api/public/questions/search';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));

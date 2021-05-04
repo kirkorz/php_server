@@ -2,6 +2,7 @@
 require_once('controllers/base_controller.php');
 require_once('models/question.php');
 require_once('models/answer.php');
+require_once('controllers/landing_controller.php');
 
 class DetailController extends BaseController
 {
@@ -65,7 +66,20 @@ class DetailController extends BaseController
     $result = Question::notcheck();
     $data = array(
       'questions'=> $result['result'],
-      'count' => $result['count']
+      'count' => $result['count'],
+      'conact' => "/?controller=landing&action=modindex" 
+    );
+    $this->render('', $data,'views/landing/mod.php');
+  }
+
+  public function addcategory($id){
+    session_start();
+    Question::addCategory($id,$_POST['txtcategory']);
+    $result = Question::notcheck($page);
+    $data = array(
+      'questions'=> $result['result'],
+      'count' => $result['count'],
+      'conact' => "/?controller=landing&action=modindex" 
     );
     $this->render('', $data,'views/landing/mod.php');
   }

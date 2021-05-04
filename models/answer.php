@@ -17,7 +17,7 @@ class Answer
       'node_id' => $id,
       'page'=> $page
     );
-    $url = 'http://localhost:3000/api/public/answers/';
+    $url = 'https://udpt15-content.herokuapp.com/api/public/answers/';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -36,7 +36,7 @@ class Answer
       'node_id' => $node_id,
       'comment' => $comment
     );
-    $url = 'http://localhost:3000/api/answers';
+    $url = 'https://udpt15-content.herokuapp.com/api/answers';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);

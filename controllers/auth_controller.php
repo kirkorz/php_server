@@ -9,6 +9,11 @@ class AuthController extends BaseController
     $this->folder = 'auth';
   }
 
+  // public function loginGoogle(){
+  //   $result = User::loginGoogle();
+  //   header('Location: '.$result[url]);
+  // }
+
   public function index()
   {
     $this->render('login');
@@ -27,8 +32,8 @@ class AuthController extends BaseController
     $result = User::login($data);
     session_start();
     $_SESSION['token'] = $result["accessToken"];
-    $_SESSION['mod'] = $result["check"];
-    if($_SESSION['mod'] == 'true'){
+    $_SESSION['role'] = $result["role"];
+    if($_SESSION['role'] == 'admin'){
       $result = Question::notcheck();
       $data = array(
         'questions'=> $result['result'],
