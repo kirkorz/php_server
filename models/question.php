@@ -2,7 +2,7 @@
 class Question
 {
 
-  static $domain = "https://udpt15-content.herokuapp.com";
+  public static $domain = "https://udpt15-content.herokuapp.com";
   public $id;
   public $title;
   public $content;
@@ -19,7 +19,7 @@ class Question
     $data = array(
       'skip' => $skip * 5
     );
-    $url = $domain.'/api/public/questions/all';
+    $url = self::$domain.'/api/public/questions/all';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -31,7 +31,7 @@ class Question
     return $result;
   }
   static function detail($id){
-    $url = $domain.'/api/public/questions/'.$id;
+    $url = self::$domain.'/api/public/questions/'.$id;
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -47,7 +47,7 @@ class Question
         'skip' => $skip * 5,
         'token' => $_SESSION['token']
     );
-    $url = $domain.'/mod/questions';
+    $url = self::$domain.'/mod/questions';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -63,7 +63,7 @@ class Question
         'skip' => $skip * 5,
         'token' => $_SESSION['token']
     );
-    $url = $domain.'/api/questions/private';
+    $url = self::$domain.'/api/questions/private';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -83,7 +83,7 @@ class Question
       'detail' => $detail,
       'tags' => $tags
     );
-    $url = $domain.'/api/questions';
+    $url = self::$domain.'/api/questions';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -102,7 +102,7 @@ class Question
       'token' => $_SESSION['token'],
       'questionsId' => $id
     );
-    $url = $domain.'/mod/questions';
+    $url = self::$domain.'/mod/questions';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -122,7 +122,7 @@ class Question
       'questionsId' => $id,
       'category' => $category,
     );
-    $url = $domain.'/mod/questions/category';
+    $url = self::$domain.'/mod/questions/category';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -140,7 +140,7 @@ class Question
     $data = array(
       'token' => $_SESSION['token']
     );
-    $url = $domain.'/api/questions/'.$id;
+    $url = self::$domain.'/api/questions/'.$id;
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -160,7 +160,7 @@ class Question
       'token' => $_SESSION['token'],
       'questionsId' => $id
     );
-    $url = $domain.'/mod/questions/';
+    $url = self::$domain.'/mod/questions/';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
@@ -180,7 +180,7 @@ class Question
         'skip' => $skip * 5,
         'text' => $text
     );
-    $url = $domain.'/api/public/questions/search';
+    $url = self::$domain.'/api/public/questions/search';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));

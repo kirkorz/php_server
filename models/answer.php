@@ -1,7 +1,7 @@
 <?php
 class Answer
 {
-  static $domain = "https://udpt15-content.herokuapp.com";
+  public static $domain = "https://udpt15-content.herokuapp.com";
   public $id;
   public $title;
   public $content;
@@ -18,7 +18,7 @@ class Answer
       'node_id' => $id,
       'page'=> $page
     );
-    $url = $domain.'/api/public/answers/';
+    $url = self::$domain.'/api/public/answers/';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -37,7 +37,7 @@ class Answer
       'node_id' => $node_id,
       'comment' => $comment
     );
-    $url = $domain.'/api/answers';
+    $url = self::$domain.'/api/answers';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);

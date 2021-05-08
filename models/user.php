@@ -1,7 +1,7 @@
 <?php
 class User
 {
-  static $domain = "https://udpt15-auth.herokuapp.com";
+  public static $domain = "https://udpt15-auth.herokuapp.com";
   
   // static function loginGoogle(){
   //   $url = 'http://localhost:3000/users/google';
@@ -15,7 +15,7 @@ class User
   //   return $result;
   // }
   static function signup($data){
-    $url = $domain.'/users/signup';
+    $url = self::$domain.'/users/signup';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
@@ -29,7 +29,7 @@ class User
   }
 
   static function login($data){
-    $url = $domain.'/users/login';
+    $url = self::$domain.'/users/login';
     $ch = curl_init($url);
     $postString = http_build_query($data,'','&');
     curl_setopt($ch, CURLOPT_POST, 1);
