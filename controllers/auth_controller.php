@@ -30,7 +30,6 @@ class AuthController extends BaseController
       );
     }
     $result = User::login($data);
-    session_start();
     $_SESSION['token'] = $result["accessToken"];
     $_SESSION['role'] = $result["role"];
     if($_SESSION['role'] == 'admin'){
@@ -53,7 +52,8 @@ class AuthController extends BaseController
     $data = array(
       'username' => $_POST["txtusername"],
       'name'=> $_POST['txtname'],
-      'password' => $_POST["txtpassword"]
+      'password' => $_POST["txtpassword"],
+      'role' => 'user'
     );
     $result = User::signup($data);
     if($result == 200){

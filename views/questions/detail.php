@@ -2,7 +2,7 @@
     <div>
     <?php
     session_start();
-	echo "Questions : $question[title] <br> asked by : {$question[authors][0][name]} <br>";
+	echo "Questions : $question[title] <br> asked by : {$question['authors'][0]['name']} <br>";
     echo "Tags : "; foreach ($question['tags'] as $tag) {
         echo $tag." || ";
     }

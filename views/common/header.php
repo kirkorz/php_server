@@ -10,7 +10,6 @@
 </div>
 <div>
     <?php
-        session_start();
         if(isset($_SESSION['token'])){
             if($_SESSION['role'] == 'admin'){  
                 echo '<a href="/?controller=auth&action=logout">Log out</a><br>';
