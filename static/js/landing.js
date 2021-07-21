@@ -10,9 +10,9 @@ $(document).ready(function(){
             contentType: 'application/json',
             success: function(result){
                 var a = $("span[data-value='" + e.target.attributes[1].value +"']")[0];
-                a.innerText ="upvote "+ result['upvote'];
+                a.innerText ="upvote "+ result[0]['upvote'];
                 var b = $("span[data-value='" + e.target.attributes[1].value +"']")[1];
-                b.innerText ="downvote " + result['donwvote'];
+                b.innerText ="downvote " + result[0]['downvote'];
                 
             }
         })
