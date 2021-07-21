@@ -1,19 +1,26 @@
 <div>
+    <ul class="listanswer">
     <?php
-        foreach($answers['comments'] as $ans){
-            echo ($ans['author']['name']);
-            echo " ===> "."  $ans[text] <br> ";
+        foreach($answers as $ans){
+            echo "<div>".$ans['author']['name']." ===> "."  $ans[text] </div> ";
         }
     ?>
+    </ul>
 </div>
 <div>
-        <?php
-        if(intval($count)>=1){
-            foreach (range(1,intval($count)) as $number) {
-                echo "<a href=" ;echo $conact."&id=".$question['_id']."&page=$number>$number</a>    ";
-            }
+    <?php
+        if(intval($count)>1){
+            echo "<div class='pagination_ans' id='".$question['_id']."'>";
+            echo "more </div>";
+            // echo "<ul>";
+            // foreach (range(1,intval($count)) as $number) {
+            //     // echo "<a href=" ;echo $conact."&id=".$question['_id']."&page=$number>$number</a>    ";
+			// 	echo "<li style='display:inline-block;'><a>$number</a></li>";
+            // };
+            // echo "<ul>";
+            // echo "</div>";
         }
-        ?>
+    ?>
 </div>
 <div>
 <?php
@@ -26,5 +33,11 @@
 ?>
 </div>
 <div>
-
 </div>
+<script id="listanswer" type="text/x-handlebars-template">
+    <!-- <ul class="listanswer"> -->
+    {{#each answer}}
+        <div>{{this.author.name}} ===> {{this.text}} </div>
+    {{/each}}
+    <!-- </ul> -->
+</script>

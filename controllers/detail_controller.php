@@ -13,75 +13,52 @@ class DetailController extends BaseController
 
   public function index($id,$page=1)
   {
-    $comment = Answer::all($id,$page);
+    list($comment,$n) = Answer::all($id,$page);
     $data = array(
       'question'=> Question::detail($id),
       'answers' => $comment['result'],
-      'count' => $comment['count']['page_of_comment'],
+      // 'count' => $comment['count']['page_of_comment'] || 0,
+      'count' => $comment['count'],
       'conact' => "/?controller=detail&action=index" 
     );
-    session_start();
     $_SESSION['node_id'] = $id;
     $this->render('index', $data);
   }
   public function addComment($id){
-    session_start();
-    Answer::addComment($id,$_POST['txtcomment']);
-    $comment = Answer::all($id);
-    $data = array(
-      'question'=> Question::detail($id),
-      'answers' => $comment['result'],
-      'count' => $comment['count']['page_of_comment'],
-      'conact' => "/?controller=detail&action=index" 
-    );
-    $this->render('index', $data);
+    list($ans,$n) =  Answer::addComment($id,$_POST['txtcomment']);
+    if($n != 200){
+      session_destroy();
+    }
+    // $comment = Answer::all($id);
+    // $data = array(
+    //   'question'=> Question::detail($id),
+    //   'answers' => $comment['result'],
+    //   // 'count' => $comment['count']['page_of_comment'],
+    //   'count' => $comment['count'],
+    //   'conact' => "/?controller=detail&action=index" 
+    // );
+    // $this->render('index', $data);
+    header('Location: '."/?controller=detail&action=index&id=".$id);
   }
 
   public function deleteQuestion($id){
-    session_start();
     Question::deletequestion($id);
-    $result = Question::private();
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count']
-    );
-    //$this->render('index', $data);
-    $this->render('', $data,'views/landing/dashboard.php');
+    header('Location: '."/?controller=landing&action=dashboard");
   }
 
   public function moddelQuestion($id){
-    session_start();
     Question::moddelQuestion($id);
-    $result = Question::notcheck();
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count']
-    );
-    $this->render('', $data,'views/landing/mod.php');
+    header('Location: '."/?controller=landing&action=modindex");
   }
 
   public function makepub($id){
-    session_start();
     Question::makepub($id);
-    $result = Question::notcheck();
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count'],
-      'conact' => "/?controller=landing&action=modindex" 
-    );
-    $this->render('', $data,'views/landing/mod.php');
+    header('Location: '."/?controller=landing&action=modindex");
   }
 
   public function addcategory($id){
-    session_start();
     Question::addCategory($id,$_POST['txtcategory']);
-    $result = Question::notcheck($page);
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count'],
-      'conact' => "/?controller=landing&action=modindex" 
-    );
-    $this->render('', $data,'views/landing/mod.php');
+    header('Location: '."/?controller=landing&action=modindex");
   }
 
   public function error()

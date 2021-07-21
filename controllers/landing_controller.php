@@ -9,9 +9,11 @@ class LandingController extends BaseController
     $this->folder = 'landing';
   }
 
-  public function userindex($page=0)
-  {
-    $result = Question::all($page);
+  public function userindex(){
+    $category = isset($_GET['category']) ? $_GET['category'] : null;
+    $skip = isset($_GET['skip']) ? $_GET['skip']: 0 ;
+    $limit = isset($_GET['limit']) ? $_GET['limit'] : 5 ;
+    list($result,$nothing) = Question::all($category,$skip,$limit);
       $data = array(
         'questions'=> $result['result'],
         'count' => $result['count'],
@@ -31,8 +33,12 @@ class LandingController extends BaseController
   }
 
   public function dashboard($page=0){
-    session_start();
-    $result = Question::private($page);
+    list($result,$statuscode) = Question::private($page);
+    if($statuscode != 200){
+      session_destroy();
+      header('Location: '."/");
+      exit();
+    }
     $data = array(
       'questions'=> $result['result'],
       'count' => $result['count'],
@@ -42,21 +48,19 @@ class LandingController extends BaseController
   }
 
   
-  public function addQuestion()
-  {
-    session_start();
+  public function addQuestion(){
     Question::addQuestion($_POST['txttitle'],$_POST['txtdetail'],$_POST['txttags']);
-    $result = Question::private();
-    $data = array(
-      'questions'=> $result['result'],
-      'count' => $result['count'],
-      'conact' => "/?controller=landing&action=dashboard" 
-    );
-    $this->render('dashboard', $data);
+    // $result = Question::private();
+    // $data = array(
+    //   'questions'=> $result['result'],
+    //   'count' => $result['count'],
+    //   'conact' => "/?controller=landing&action=dashboard" 
+    // );
+    header('Location: '."/?controller=landing&action=dashboard");
+    // $this->render('dashboard', $data);
   }
 
-  public function searchQuestion($page=0)
-  {
+  public function searchQuestion($page=0){
     session_start();
     $result = Question::searchQuestion($_POST['txtsearch'],$page); 
     $data = array(

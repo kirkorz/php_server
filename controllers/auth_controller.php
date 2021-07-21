@@ -9,11 +9,6 @@ class AuthController extends BaseController
     $this->folder = 'auth';
   }
 
-  // public function loginGoogle(){
-  //   $result = User::loginGoogle();
-  //   header('Location: '.$result[url]);
-  // }
-
   public function index()
   {
     $this->render('login');
@@ -33,20 +28,17 @@ class AuthController extends BaseController
     $_SESSION['token'] = $result["accessToken"];
     $_SESSION['role'] = $result["role"];
     if($_SESSION['role'] == 'admin'){
-      $result = Question::notcheck();
-      $data = array(
-        'questions'=> $result['result'],
-        'count' => $result['count']
-      );
-      $this->render('',$data,'views/landing/mod.php');
+      $newURL = "/?controller=landing&action=modindex";
     } else{
-      $result = Question::private();
-      $data = array(
-        'questions'=> $result['result'],
-        'count' => $result['count']
-      );
-      $this->render('',$data,'views/landing/dashboard.php');
+      $newURL = "http://127.0.0.1:5000/?controller=landing&action=dashboard";
+      // $result = Question::private();
+      // $data = array(
+      //   'questions'=> $result['result'],
+      //   'count' => $result['count']
+      // );
+      // $this->render('',$data,'views/landing/dashboard.php');
     }
+    header('Location: '.$newURL);
   }
   public function signup(){
     $data = array(
@@ -65,13 +57,13 @@ class AuthController extends BaseController
     
   }
   public function logout(){
-    session_start();
     session_destroy();
     $result = Question::all();
     $data = array(
       'questions'=> $result['result'],
       'count' => $result['count']
     );
-    $this->render('',$data,'views/landing/index.php');
+    header('Location: '."http://127.0.0.1:5000/");
+    // $this->render('',$data,'views/landing/index.php');
   }
 }

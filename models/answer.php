@@ -1,7 +1,9 @@
 <?php
 class Answer
 {
-  public static $domain = "https://udpt15-content.herokuapp.com";
+  // public static $domain = "https://udpt15-content.herokuapp.com";
+  public static $domain = "http://127.0.0.1:3001";
+
   public $id;
   public $title;
   public $content;
@@ -13,12 +15,12 @@ class Answer
     $this->content = $content;
   }
   
-  static function all($id,$page=1){
+  static function all($id,$skip=0,$limit=5){
     $data = array(
-      'node_id' => $id,
-      'page'=> $page
+      'skip'=> $skip,
+      'limit'=> $limit
     );
-    $url = self::$domain.'/api/public/answers/';
+    $url = self::$domain.'/api/answers/'.$id;
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -27,14 +29,13 @@ class Answer
     $result = json_decode($response, true);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return $result;
+    return array($result,$httpcode);
   }
 
   static function addComment($node_id,$comment){
-    session_start();
     $data = array(
       'token' => $_SESSION['token'],
-      'node_id' => $node_id,
+      'nodeId' => $node_id,
       'comment' => $comment
     );
     $url = self::$domain.'/api/answers';
@@ -47,7 +48,7 @@ class Answer
     $result = json_decode($response, true);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return $result;
+    return array($result,$httpcode);
   }
 
 }

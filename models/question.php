@@ -2,7 +2,9 @@
 class Question
 {
 
-  public static $domain = "https://udpt15-content.herokuapp.com";
+  // public static $domain = "https://udpt15-content.herokuapp.com";
+  public static $domain = "http://127.0.0.1:3001";
+
   public $id;
   public $title;
   public $content;
@@ -14,12 +16,13 @@ class Question
     $this->content = $content;
   }
 
-  static function all($skip = 0)
-  {
+  static function all($category= null,$skip = 0,$limit = 5){
     $data = array(
-      'skip' => $skip * 5
+      'category' => $category,
+      'skip' => $skip ,
+      'limit' => $limit
     );
-    $url = self::$domain.'/api/public/questions/all';
+    $url = self::$domain.'/api/questions/all';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -28,10 +31,10 @@ class Question
     $result = json_decode($response, true);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return $result;
+    return array($result,$httpcode);
   }
   static function detail($id){
-    $url = self::$domain.'/api/public/questions/'.$id;
+    $url = self::$domain.'/api/questions/'.$id;
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
@@ -42,7 +45,6 @@ class Question
     return $result;
   }
   static function notcheck($skip = 0){
-    session_start();
     $data = array(
         'skip' => $skip * 5,
         'token' => $_SESSION['token']
@@ -72,11 +74,10 @@ class Question
     $result = json_decode($response, true);
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
-    return $result;
+    return array($result,$httpcode);
   }
 
   static function addQuestion($title,$detail,$tags){
-    session_start();
     $data = array(
       'token' => $_SESSION['token'],
       'title' => $title,
@@ -97,7 +98,6 @@ class Question
   }
 
   static function makepub($id){
-    session_start();
     $data = array(
       'token' => $_SESSION['token'],
       'questionsId' => $id
@@ -116,7 +116,6 @@ class Question
   }
 
   static function addCategory($id,$category){
-    session_start();
     $data = array(
       'token' => $_SESSION['token'],
       'questionsId' => $id,
@@ -153,9 +152,7 @@ class Question
     curl_close($ch);
     return $result;
   }
-
   static function moddelQuestion($id){
-    session_start();
     $data = array(
       'token' => $_SESSION['token'],
       'questionsId' => $id
@@ -173,14 +170,13 @@ class Question
     curl_close($ch);
     return $result;
   }
-
   static function searchQuestion($text, $skip = 0){
     session_start();
     $data = array(
         'skip' => $skip * 5,
         'text' => $text
     );
-    $url = self::$domain.'/api/public/questions/search';
+    $url = self::$domain.'/api/questions/search';
     $ch = curl_init($url);
     curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET' );
     curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -190,5 +186,23 @@ class Question
     $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
     return $result;
+  }
+  static function makeVote($token,$id,$vote){
+    $data = array(
+      'token' => $token,
+      'objectId' => $id,
+      'upVote' => $vote,
+    );
+    $url = self::$domain.'/api/votes/vote';
+    $ch = curl_init($url);
+    $postString = http_build_query($data,'','&');
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postString);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($ch);
+    $result = json_decode($response, true);
+    $httpcode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    return array($result,$httpcode);
   }
 }
