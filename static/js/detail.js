@@ -9,6 +9,17 @@
 
 $(document).ready(function(){
     let endpoint = 'http://'+ $(location).attr('host'); 
+    $("body").on("click", ".filter",function(e) {      
+        alert("g");
+        // var a = $("li[class='filter']");
+        // var filter = e.target.firstChild.nodeValue.includes("moinhat") ? 1 : 0    
+        // if(filter){
+        //     a.innerText = "noibat"
+        // }
+        // else{
+        //     a.innerText = "moinhat"
+        // }
+    });
     $("body").on("click", ".pagination_ans",function(e) {
         $.ajax({
             type: "GET",

@@ -27,7 +27,8 @@ class ApiController
         $id = $_GET['id'];
         $skip = intval($_GET['skip']); 
         $limit = intval($_GET['limit']);
-        list($data,$n) = Answer::all($id,$skip,$limit);
+        $noibat = isset(($_GET['noibat'])) ? boolval($_GET['noibat']) : null;
+        list($data,$n) = Answer::all($id,$skip,$limit,$noibat);
         header('Content-Type: application/json');
         echo json_encode($data);
     }

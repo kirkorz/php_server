@@ -1,8 +1,16 @@
 <div>
+    <ul>
+        <li class="filter">noibat</li>
+    </ul>
+</div>
+<div class="list_ans">
     <ul class="listanswer">
     <?php
         foreach($answers as $ans){
-            echo "<div>".$ans['author']['name']." ===> "."  $ans[text] </div> ";
+            echo "<div>".$ans['author']['name']." ===> "."  $ans[text]"."</div> ";
+            echo "<div> Date: "."$ans[posted]"."</div>";
+            echo "<div> Star: "."$ans[star]"."</div>";
+            echo "<br>";
         }
     ?>
     </ul>
@@ -35,9 +43,12 @@
 <div>
 </div>
 <script id="listanswer" type="text/x-handlebars-template">
-    <!-- <ul class="listanswer"> -->
+    <ul class="listanswer">
     {{#each answer}}
         <div>{{this.author.name}} ===> {{this.text}} </div>
+        <div>Date: {{this.posted}}</div>
+        <div>Star: {{this.star}}</div>
+        <br>    
     {{/each}}
-    <!-- </ul> -->
+    </ul>
 </script>

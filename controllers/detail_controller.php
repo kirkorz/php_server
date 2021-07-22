@@ -11,13 +11,12 @@ class DetailController extends BaseController
     $this->folder = 'detail';
   }
 
-  public function index($id,$page=1)
+  public function index($id)
   {
-    list($comment,$n) = Answer::all($id,$page);
+    list($comment,$n) = Answer::all($id);
     $data = array(
       'question'=> Question::detail($id),
       'answers' => $comment['result'],
-      // 'count' => $comment['count']['page_of_comment'] || 0,
       'count' => $comment['count'],
       'conact' => "/?controller=detail&action=index" 
     );
@@ -61,8 +60,7 @@ class DetailController extends BaseController
     header('Location: '."/?controller=landing&action=modindex");
   }
 
-  public function error()
-  {
+  public function error(){
     $this->render('error');
   }
 }

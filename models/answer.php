@@ -15,10 +15,11 @@ class Answer
     $this->content = $content;
   }
   
-  static function all($id,$skip=0,$limit=5){
+  static function all($id,$skip=0,$limit=5,$noibat = false){
     $data = array(
       'skip'=> $skip,
-      'limit'=> $limit
+      'limit'=> $limit,
+      'noibat' => $noibat
     );
     $url = self::$domain.'/api/answers/'.$id;
     $ch = curl_init($url);
