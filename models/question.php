@@ -170,11 +170,10 @@ class Question
     curl_close($ch);
     return $result;
   }
-  static function searchQuestion($text, $skip = 0){
-    session_start();
+  static function searchQuestion($text, $skip = 0,$limit =0){
     $data = array(
         'skip' => $skip * 5,
-        'text' => $text
+        'text_search' => $text
     );
     $url = self::$domain.'/api/questions/search';
     $ch = curl_init($url);

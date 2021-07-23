@@ -9,6 +9,9 @@
     if(isset($_SESSION['token'])){
         require_once('views/questions/delete.php');
     }
+    if($_SESSION['role'] == 'user'){
+        require_once('views/questions/report.php');
+    }
     ?>    
     </div>
     <div>

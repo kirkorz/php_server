@@ -24,7 +24,7 @@
 		<?php
 		if($count != 0){
 			echo "<ul class='pagepagiantion'>";
-			foreach (range(0,intval($count / 5 ) -1 ) as $number) {
+			foreach (range(0,intval($count / 5 ) ) as $number) {
 				echo "<li style='display:inline-block;'><a>$number</a></li>";
 			}
 			echo "</ul>";

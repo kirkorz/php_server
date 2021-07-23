@@ -46,29 +46,20 @@ class LandingController extends BaseController
     );
     $this->render('dashboard',$data);
   }
-
   
   public function addQuestion(){
     Question::addQuestion($_POST['txttitle'],$_POST['txtdetail'],$_POST['txttags']);
-    // $result = Question::private();
-    // $data = array(
-    //   'questions'=> $result['result'],
-    //   'count' => $result['count'],
-    //   'conact' => "/?controller=landing&action=dashboard" 
-    // );
     header('Location: '."/?controller=landing&action=dashboard");
-    // $this->render('dashboard', $data);
   }
 
-  public function searchQuestion($page=0){
-    session_start();
-    $result = Question::searchQuestion($_POST['txtsearch'],$page); 
+  public function searchQuestion($skip=0,$limit=5){
+    $result = Question::searchQuestion($_POST['txtsearch'],$skip,$limit); 
     $data = array(
       'questions'=> $result['result'],
       'count' => $result['count'],
       'conact' => "/?controller=landing&action=searchQuestion" 
     );
-    $this->render('userindex', $data);
+    $this->render('index', $data);
   }
 
   public function error()

@@ -57,7 +57,7 @@ $(document).ready(function(){
             contentType: 'application/json',
             success: function(result){
                 var html = tS_question({question : result['result']});
-                var html_page = tS_page({count : [...Array(Math.floor(result['count']/5)).keys()]});
+                var html_page = tS_page({count : [...Array(Math.floor(result['count']/5 + 1)).keys()]});
                 $( ".list_question").empty();
                 $( ".list_question").append(html);
                 $( ".page_pagiantion").empty();
@@ -104,5 +104,24 @@ $(document).ready(function(){
                 }
             }
         })
+    });
+    $("body").on("click", ".report",function(e) {
+        alert("report done!")
+        // $.ajax({
+        //     type: "GET",
+        //     url: endpoint + '/?controller=api&action=getAnswers&id='+ e.currentTarget.id +'&skip='+ skip +'&limit=5&noibat='+ a,
+        //     contentType: 'application/json',
+        //     success: function(result){
+        //         console.log(result);
+        //         var html = tS_answer({answer : result['result']});
+        //         // $( ".listanswer").empty();
+        //         $(".list_ans").append(html);
+        //         if(result['result'].length == 0 ){
+        //             $(".pagination_ans").remove();
+        //         }else{
+        //             skip = skip + 5;
+        //         }
+        //     }
+        // })
     });
 });
