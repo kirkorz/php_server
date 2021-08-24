@@ -9,8 +9,8 @@
           <div>
             <ul class="listcategory">
               <li id="moinhat">Moi nhat</li>
-              <li id="khoahoc">Khoa hoc</li>
-              <li id="giaitri">Giai tri</li>
+              <li id="laptrinh">Lap trinh</li>
+              <li id="maychu">May chu</li>
               <li id="noibat">Noi Bat</li>
             </ul>
           </div>

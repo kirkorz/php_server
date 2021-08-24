@@ -16,7 +16,7 @@ class Question
     $this->content = $content;
   }
 
-  static function all($category= null,$skip = 0,$limit = 5){
+  static function all($category= "noibat",$skip = 0,$limit = 5){
     $data = array(
       'category' => $category,
       'skip' => $skip ,
@@ -96,7 +96,6 @@ class Question
     curl_close($ch);
     return $result;
   }
-
   static function makepub($id){
     $data = array(
       'token' => $_SESSION['token'],
@@ -114,7 +113,6 @@ class Question
     curl_close($ch);
     return $result;
   }
-
   static function addCategory($id,$category){
     $data = array(
       'token' => $_SESSION['token'],

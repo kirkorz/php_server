@@ -54,7 +54,6 @@ class AuthController extends BaseController
     else{
       $this->index2();
     }
-    
   }
   public function logout(){
     session_destroy();
